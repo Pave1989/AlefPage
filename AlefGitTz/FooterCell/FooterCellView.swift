@@ -35,7 +35,6 @@ class FooterCellView: UIView {
     }
     private func createConstraints(){
 
-
 //Button отмены
         buttonCancel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()

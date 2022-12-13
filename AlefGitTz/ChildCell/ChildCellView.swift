@@ -26,6 +26,7 @@ class ChildCellView: UIView{
         addSubview(fielChildAge)
         addSubview(buttonDelete)
         addSubview(separatorView)
+        
 //Имя ребенка
         fieldChildName.placeholder = "Имя"
         fieldChildName.borderStyle = .roundedRect
@@ -41,7 +42,7 @@ class ChildCellView: UIView{
     }
     private func createConstraints(){
 
-//TextField родителя
+//Ребенок
         //Имя
         fieldChildName.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(5)
@@ -49,8 +50,7 @@ class ChildCellView: UIView{
             make.right.equalToSuperview().inset(90)
             make.height.equalTo(40)
         }
-//TextField родителя
-        //Фамилия
+        //Возраст
         fielChildAge.snp.makeConstraints { make in
             make.top.equalTo(fieldChildName.snp.bottom).offset(5)
             make.left.equalToSuperview().inset(20)

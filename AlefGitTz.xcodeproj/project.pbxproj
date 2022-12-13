@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		820980C829474C9600D20E66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820980C729474C9600D20E66 /* AppDelegate.swift */; };
-		820980CF29474C9600D20E66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 820980CD29474C9600D20E66 /* Main.storyboard */; };
 		820980D129474C9900D20E66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 820980D029474C9900D20E66 /* Assets.xcassets */; };
 		820980D429474C9900D20E66 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 820980D229474C9900D20E66 /* LaunchScreen.storyboard */; };
 		82BB05762947517A0077B9DF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 82BB05752947517A0077B9DF /* SnapKit */; };
@@ -29,7 +28,6 @@
 /* Begin PBXFileReference section */
 		820980C429474C9600D20E66 /* AlefGitTz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlefGitTz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		820980C729474C9600D20E66 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		820980CE29474C9600D20E66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		820980D029474C9900D20E66 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		820980D329474C9900D20E66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		820980D529474C9900D20E66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 				820980DC29474D2900D20E66 /* Resources */,
 				82BB0595294758A20077B9DF /* ParentTableViewController.swift */,
 				82BB05932947584B0077B9DF /* RealmManager.swift */,
-				820980CD29474C9600D20E66 /* Main.storyboard */,
 			);
 			path = AlefGitTz;
 			sourceTree = "<group>";
@@ -214,7 +211,6 @@
 			files = (
 				820980D429474C9900D20E66 /* LaunchScreen.storyboard in Resources */,
 				820980D129474C9900D20E66 /* Assets.xcassets in Resources */,
-				820980CF29474C9600D20E66 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,14 +238,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		820980CD29474C9600D20E66 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				820980CE29474C9600D20E66 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		820980D229474C9900D20E66 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
