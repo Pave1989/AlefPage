@@ -84,10 +84,7 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
         //принт массива с родителями бд
                 let parentsArray = dbManager.obtainParent()
                 print("\(parentsArray)")
-        //принт массива с детьми
-            let childArray = dbManager.obtainChild()
-            print("\(childArray)")
-            print("добавился ребенок")
+                print("добавился ребенок")
         }
     
 //функция срабатывает 0 при вводе данных в поле + ограничение символов ввода

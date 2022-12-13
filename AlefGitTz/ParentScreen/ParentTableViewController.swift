@@ -121,15 +121,8 @@ class ParentTableViewController: UITableViewController {
             let alert = UIAlertController(title: "Очистить профиль?", message: "", preferredStyle: .alert)
             let deleteParent = UIAlertAction(title: "Удалить данные", style: .destructive){(alert) in
                 self.dbManager.clearAll()
-                self.tableView.reloadData()         
-        //принт массива с родителями бд
-                let parent = self.dbManager.obtainParent()
-                print("\(parent)")
-                print("массив родителя")
-//        //принт массива с детьми
-//                let child = self.dbManager.obtainChild()
-//                print("\(child)")
-//                print("данные удалены")
+                self.tableView.reloadData()
+                print("Данные удалены")
             }
             alert.addAction(deleteParent)
             alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: .none))

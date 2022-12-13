@@ -77,13 +77,10 @@
 			isa = PBXGroup;
 			children = (
 				820980DB29474D1400D20E66 /* Application */,
-				82BB057A294754980077B9DF /* ChildCell */,
-				82BB0584294755DE0077B9DF /* FooterCell */,
-				82BB0589294756AC0077B9DF /* HeaderCell */,
+				8255E5A829489C30009B2AFC /* BDManager */,
 				82BB058E2947576C0077B9DF /* Models */,
+				8255E5A929489C71009B2AFC /* ParentScreen */,
 				820980DC29474D2900D20E66 /* Resources */,
-				82BB0595294758A20077B9DF /* ParentTableViewController.swift */,
-				82BB05932947584B0077B9DF /* RealmManager.swift */,
 			);
 			path = AlefGitTz;
 			sourceTree = "<group>";
@@ -104,6 +101,25 @@
 				820980D529474C9900D20E66 /* Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		8255E5A829489C30009B2AFC /* BDManager */ = {
+			isa = PBXGroup;
+			children = (
+				82BB05932947584B0077B9DF /* RealmManager.swift */,
+			);
+			path = BDManager;
+			sourceTree = "<group>";
+		};
+		8255E5A929489C71009B2AFC /* ParentScreen */ = {
+			isa = PBXGroup;
+			children = (
+				82BB0595294758A20077B9DF /* ParentTableViewController.swift */,
+				82BB0589294756AC0077B9DF /* HeaderCell */,
+				82BB057A294754980077B9DF /* ChildCell */,
+				82BB0584294755DE0077B9DF /* FooterCell */,
+			);
+			path = ParentScreen;
 			sourceTree = "<group>";
 		};
 		82BB057A294754980077B9DF /* ChildCell */ = {
