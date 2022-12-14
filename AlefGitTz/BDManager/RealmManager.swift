@@ -18,40 +18,40 @@ protocol RealmManagerProtocol {
 
 }
 class RealmManager: RealmManagerProtocol {
-    //без изменения полей
+//without changing fields
     fileprivate lazy var mainRealm = try! Realm(configuration: .defaultConfiguration)
 
-//удалить все
+//delete everything
     func clearAll(){
         try! mainRealm.write({
             mainRealm.deleteAll()
         })
     }
-//сохранить родителя
+//save parent
     func saveParent(parent: ParentModel) {
         try! mainRealm.write({
             mainRealm.add(parent)
         })
     }
-//сохранить ребенка
+//save child
     func saveChild(child: ChildModel){
         try! mainRealm.write({
             mainRealm.add(child)
         })
     }
-//удалить
+//delete
     func removeObject(object: Object){
         try! mainRealm.write({
             mainRealm.delete(object)
         })
     }
-//достать родителя
+//get a parent
     func obtainParent() -> [ParentModel]{
         let models = mainRealm.objects(ParentModel.self)
         
         return Array(models)
     }
-//достать ребенка
+//get a child
     func obtainChild() -> [ChildModel]{
         let models = mainRealm.objects(ChildModel.self)
         

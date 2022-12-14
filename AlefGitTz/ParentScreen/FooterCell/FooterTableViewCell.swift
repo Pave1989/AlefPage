@@ -15,18 +15,17 @@ class FooterTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     override init(reuseIdentifier: String?){
         super.init(reuseIdentifier: reuseIdentifier)
+        
         initializeUI()
-        createConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     private func initializeUI(){
-        //чтобы работали textField добавить подвид в contentMode
+//чтобы работали textField добавить подвид в contentMode
+//view loading
         contentView.addSubview(cellView)
-    }
-    private func createConstraints(){
         cellView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(0)
             make.left.equalToSuperview().inset(0)

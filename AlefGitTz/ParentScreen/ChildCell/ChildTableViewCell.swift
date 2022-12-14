@@ -17,9 +17,10 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         initializeUI()
-        createConstraints()
-        self.cellView.fieldChildName.delegate = self
+     
+        self.cellView.childNameField.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -28,15 +29,13 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     private func initializeUI(){
         //чтобы работали textField добавить подвид в contentMode
+//view loading
         contentView.addSubview(cellView)
         cellView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        cellView.buttonDelete.addTarget(self, action: #selector(deleteChild), for: .touchUpInside)
-        cellView.fieldChildName.addTarget(self, action: #selector(saveChildRealm), for: .editingChanged)
-        cellView.fielChildAge.addTarget(self, action: #selector(nameFilterDigits), for: .editingChanged)
-        cellView.fielChildAge.addTarget(self, action: #selector(saveChildRealm), for: .editingChanged)
-    }
-    
-    private func createConstraints(){
+        cellView.deleteButton.addTarget(self, action: #selector(deleteChild), for: .touchUpInside)
+        cellView.childNameField.addTarget(self, action: #selector(saveChildRealm), for: .editingChanged)
+        cellView.childAgeField.addTarget(self, action: #selector(nameFilterDigits), for: .editingChanged)
+        cellView.childAgeField.addTarget(self, action: #selector(saveChildRealm), for: .editingChanged)
         cellView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(0)
             make.left.equalToSuperview().inset(0)
@@ -44,6 +43,7 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
             make.bottom.equalToSuperview().offset(0)
         }
     }
+
 //функция срабатывает 0 при вводе данных в поле + ограничение символов ввода
     @objc func nameFilterDigits(_ textField: UITextField){
         if textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 2 {
@@ -55,7 +55,7 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
           textField.text = ""
         }
     }
-    //функция сохраняет родительские данные в бд с каждым изменением поля TextField
+//the function saves the child data to the database with each change in the TextField
     @objc func saveChildRealm(_ textField: UITextField){
 
         let childs = dbManager.obtainChild()
@@ -64,8 +64,8 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
         let realm = try! Realm()
         try! realm.write({
             child.childID = childs[oldChildId].childID
-            child.name = cellView.fieldChildName.text ?? ""
-            child.age = cellView.fielChildAge.text ?? ""
+            child.name = cellView.childNameField.text ?? ""
+            child.age = cellView.childAgeField.text ?? ""
             if  child.name != "" &&
                 child.age != ""{
                 realm.add(child, update: .modified)
@@ -74,19 +74,21 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
             }
             
         })
-        //принт массива с детьми
-            let childArray = dbManager.obtainChild()
-            print("\(childArray)")
-        //принт массива с родителями бд
+        //print array with BD parents
         let parents = dbManager.obtainParent()
         print("\(parents)")
+        
+        //print array with BD childs
+            let childArray = dbManager.obtainChild()
+            print("\(childArray)")
     }
 
-    //функция с замыканием удаления ребенка
+//function with child removal closure
     @objc func deleteChild(){
         didDelete()
     }
-    //функия делегата для ввода данных только буквами
+    
+//delegate function to enter data in letters only
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
         let letters = CharacterSet(charactersIn: "абвгдежзийклмнопрстуфхцчшщъыьэюяАБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ").inverted

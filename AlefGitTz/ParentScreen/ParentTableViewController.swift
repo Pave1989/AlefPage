@@ -10,27 +10,25 @@ import RealmSwift
 
 class ParentTableViewController: UITableViewController {
 
-    let dbManager: RealmManagerProtocol = RealmManager()
-    var childs: Results<ChildModel>!
+    let realmManager: RealmManagerProtocol = RealmManager()
+    var childsArray: Results<ChildModel>!
     let cellID = "reuseIdentifier"
     let headerID = "reuseIdentierHeader"
-    //complition handler
-    var cleanParent: () -> () = {}
     
     override func viewDidLoad() {
         super.viewDidLoad()
       
-        //принт массива с родителями бд
-            let parentsArray = dbManager.obtainParent()
+        //print array with BD parents
+            let parentsArray = realmManager.obtainParent()
             print("\(parentsArray)")
             print("массив родителя")
-//        //принт массива с детьми
+//        //print array with BD childs
 //            let childArray = dbManager.obtainChild()
 //            print("\(childArray)")
 //            print("массив детей")
         
         let realm = try! Realm()
-        self.childs = realm.objects(ChildModel.self)
+        self.childsArray = realm.objects(ChildModel.self)
         self.tableView?.register(HeaderTableViewCell.self, forHeaderFooterViewReuseIdentifier: HeaderTableViewCell.reuseIdentifierHeader)
         tableView.register(FooterTableViewCell.self, forHeaderFooterViewReuseIdentifier: FooterTableViewCell.reuseIdentifierFooter)
         self.tableView?.register(ChildTableViewCell.self, forCellReuseIdentifier: cellID)
@@ -38,93 +36,93 @@ class ParentTableViewController: UITableViewController {
         self.tableView.separatorStyle = .none
     }
 
-    //колличество детей в массиве
+//number of children in the array
         override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             
-            return childs.count
+            return childsArray.count
         }
-
-    //Child cell
-        override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChildTableViewCell
-           //присвоение текстфилдам значений
-            let childs = dbManager.obtainChild()
-            cell.cellView.fieldChildName.text = childs[indexPath.row].name
-            cell.cellView.fielChildAge.text = "\(childs[indexPath.row].age)"
-
-    //удаление по индексу ячейки
-                cell.didDelete = { [weak self] in
-                    guard let self = self else {return}
-                    let child = self.childs[indexPath.row]
-                    self.dbManager.removeObject(object: child)
-    //    self.tableView.deleteRows(at: [indexPath], with: .right)
-                    self.tableView.reloadData()
-                }
-            return cell
-        }
-    //высота ячейки child
-        override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return 95
-        }
-    //Header
+    
+//HEADER
         override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
              let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: HeaderTableViewCell.reuseIdentifierHeader) as! HeaderTableViewCell
 
-            let parentsArray = dbManager.obtainParent()
-            //создание модели родителя если массив пустой
+            let parentsArray = realmManager.obtainParent()
+        //creating parent model if array is empty
             if parentsArray.isEmpty == true{
-                header.cellView.fieldParentSurname.text = ""
-                header.cellView.fieldParentName.text = ""
-                header.cellView.fieldParentPatronymic.text = ""
-                header.cellView.fieldParentAge.text = ""
+                header.cellView.parentSurnameField.text = ""
+                header.cellView.parentNameField.text = ""
+                header.cellView.parentPatronymicField.text = ""
+                header.cellView.parentAgeField.text = ""
                 tableView.reloadData()
-                
                 let parent = ParentModel()
-                dbManager.saveParent(parent: parent)
+                realmManager.saveParent(parent: parent)
             }else{
-            let indexParent = parentsArray.endIndex - 1
-            header.cellView.fieldParentSurname.text = parentsArray[indexParent].surname
-            header.cellView.fieldParentName.text = parentsArray[indexParent].name
-            header.cellView.fieldParentPatronymic.text = parentsArray[indexParent].patronymic
-            header.cellView.fieldParentAge.text = parentsArray[indexParent].age
+                let indexParent = parentsArray.endIndex - 1
+                header.cellView.parentSurnameField.text = parentsArray[indexParent].surname
+                header.cellView.parentNameField.text = parentsArray[indexParent].name
+                header.cellView.parentPatronymicField.text = parentsArray[indexParent].patronymic
+                header.cellView.parentAgeField.text = parentsArray[indexParent].age
+                }
+            //reload tableView
+                header.tableViewReload = { [weak self] in
+                    guard let self = self else {return}
+                    self.tableView.reloadData()
             }
-            //перезапуск tableView
-            header.tableViewReload = { [weak self] in
-                guard let self = self else {return}
-                self.tableView.reloadData()
-            }
-            //скрытие кнопки
-            if childs.count == 5{
-                header.cellView.buttonChild.isHidden = true
+            //hiding a button
+            if childsArray.count == 5{
+                header.cellView.childButton.isHidden = true
             }else{
-                header.cellView.buttonChild.isHidden = false
+                header.cellView.childButton.isHidden = false
             }
             return header
         }
-    //высота ячейки header
+    //cell height header
         override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
             return 310
         }
-    //FOOTER
+    
+//CELL Child
+            override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+                let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChildTableViewCell
+        //assigning text field values
+                let childs = realmManager.obtainChild()
+                cell.cellView.childNameField.text = childs[indexPath.row].name
+                cell.cellView.childAgeField.text = "\(childs[indexPath.row].age)"
+        //delete by cell index
+                cell.didDelete = { [weak self] in
+                    guard let self = self else {return}
+                    let child = self.childsArray[indexPath.row]
+                    self.realmManager.removeObject(object: child)
+        //self.tableView.deleteRows(at: [indexPath], with: .right)
+                        self.tableView.reloadData()
+                    }
+                return cell
+            }
+    //cell height child
+        override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            return 95
+        }
+    
+//FOOTER
         override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
              let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: FooterTableViewCell.reuseIdentifierFooter) as! FooterTableViewCell
-            footer.cellView.buttonCancel.addTarget(self, action: #selector(deleteInfo), for: .touchUpInside)
+            footer.cellView.cancelButton.addTarget(self, action: #selector(deleteInfo), for: .touchUpInside)
            
             return footer
         }
-    //высота ячейки footer
+    //cell height footer
         override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
             return 70
         }
-    //функция алерта
+    //alert function
         @objc func deleteInfo(){
             let alert = UIAlertController(title: "Очистить профиль?", message: "", preferredStyle: .alert)
-            let deleteParent = UIAlertAction(title: "Удалить данные", style: .destructive){(alert) in
-                self.dbManager.clearAll()
+            let parentDelete = UIAlertAction(title: "Удалить данные", style: .destructive){(alert) in
+                self.realmManager.clearAll()
                 self.tableView.reloadData()
                 print("Данные удалены")
             }
-            alert.addAction(deleteParent)
+            alert.addAction(parentDelete)
             alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: .none))
             self.present(alert, animated: true, completion: nil)
         }

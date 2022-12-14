@@ -13,7 +13,7 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     let dbManager: RealmManagerProtocol = RealmManager()
     var childs: Results<ChildModel>!
-    //complition handler
+//complition handler
     var tableViewReload: () -> () = {}
     static let reuseIdentifierHeader: String = String(describing: HeaderTableViewCell.self)
     
@@ -21,11 +21,12 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     override init(reuseIdentifier: String?){
         super.init(reuseIdentifier: reuseIdentifier)
+        
         initializeUI()
-        createConstraints()
-        self.cellView.fieldParentSurname.delegate = self
-        self.cellView.fieldParentName.delegate = self
-        self.cellView.fieldParentPatronymic.delegate = self
+
+        self.cellView.parentSurnameField.delegate = self
+        self.cellView.parentNameField.delegate = self
+        self.cellView.parentPatronymicField.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,19 +34,16 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
     }
     
     private func initializeUI(){
-        //чтобы работали textField добавить подвид в contentMode
+//чтобы работали textField добавить подвид в contentMode
+//view loading
         contentView.addSubview(cellView)
-
-        cellView.fieldParentSurname.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
-        cellView.fieldParentName.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
-        cellView.fieldParentPatronymic.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
-        cellView.fieldParentAge.addTarget(self, action: #selector(self.saveParentRealm), for: .editingChanged)
-        //функция добавления ребенка на экран
-        cellView.buttonChild.addTarget(self, action: #selector(addNewChild), for: .touchUpInside)
-        cellView.fieldParentAge.addTarget(self, action: #selector(self.textFieldFilter), for: .editingChanged)
-    }
-    
-    private func createConstraints(){
+        cellView.parentSurnameField.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
+        cellView.parentNameField.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
+        cellView.parentPatronymicField.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
+        cellView.parentAgeField.addTarget(self, action: #selector(self.saveParentRealm), for: .editingChanged)
+//function to add a child to the screen
+        cellView.childButton.addTarget(self, action: #selector(addNewChild), for: .touchUpInside)
+        cellView.parentAgeField.addTarget(self, action: #selector(self.textFieldFilter), for: .editingChanged)
         cellView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(0)
             make.left.equalToSuperview().inset(0)
@@ -53,15 +51,15 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
             make.bottom.equalToSuperview().offset(0)
         }
     }
-    
-    //функия делегата для ввода данных только буквами
+ 
+//delegate function to enter data in letters only
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
         let letters = CharacterSet(charactersIn: "абвгдежзийклмнопрстуфхцчшщъыьэюяАБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ").inverted
        return (string.rangeOfCharacter(from: letters) == nil)
     }
 
-    //функция добавления ребенка
+//add child function
         @objc func addNewChild(){
 
             let parents = dbManager.obtainParent()
@@ -81,7 +79,7 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
             }
             tableViewReload()
             
-        //принт массива с родителями бд
+        //print array with BD parents
                 let parentsArray = dbManager.obtainParent()
                 print("\(parentsArray)")
                 print("добавился ребенок")
@@ -99,8 +97,8 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
           textField.text = ""
         }
     }
-//функция сохраняет родительские данные в бд с каждым изменением поля TextField
-    //В дальнейшем сохранение родителя должно происходить либо при помощи отдельной кнопки либо тапом на следующий экран.Но в ТЗ нужно сделать пока так
+    
+//the function saves the parent data to the database with each change in the TextField
     @objc private func saveParentRealm(_ textField: UITextField){
 
         let parents = dbManager.obtainParent()
@@ -109,14 +107,11 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
         let realm = try! Realm()
         try! realm.write({
             parent.parentID = parents[oldParentID].parentID
-            parent.surname = cellView.fieldParentSurname.text ?? ""
-            parent.name = cellView.fieldParentName.text ?? ""
-            parent.patronymic = cellView.fieldParentPatronymic.text ?? ""
-            parent.age = cellView.fieldParentAge.text ?? ""
+            parent.surname = cellView.parentSurnameField.text ?? ""
+            parent.name = cellView.parentNameField.text ?? ""
+            parent.patronymic = cellView.parentPatronymicField.text ?? ""
+            parent.age = cellView.parentAgeField.text ?? ""
             realm.add(parent, update: .modified)
         })
-   
-        //принт массива с родителями бд
-        print("\(parents)")
     }
 }
