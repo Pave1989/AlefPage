@@ -7,7 +7,7 @@
 		<key>UIDefaultLaunchScreen</key>
 		<string></string>
 		<key>UIImageName</key>
-		<string>userLaunch2</string>
+		<string>launchImage</string>
 		<key>UILaunchScreenDefinitions</key>
 		<array>
 			<dict>

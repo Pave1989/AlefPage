@@ -30,9 +30,11 @@ class HeaderCellView: UIView {
 //Label Parent
         addSubview(parentLabel)
         parentLabel.text = "Персональные данные"
+        parentLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        parentLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
         parentLabel.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(20)
-            make.top.equalToSuperview().inset(20)
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().inset(30)
         }
         
 //Surname ParentField
@@ -73,6 +75,7 @@ class HeaderCellView: UIView {
         addSubview(parentAgeField)
         parentAgeField.placeholder = "Возраст"
         parentAgeField.borderStyle = .roundedRect
+        parentAgeField.keyboardType = .numberPad
         parentAgeField.snp.makeConstraints { make in
             make.top.equalTo(parentPatronymicField.snp.bottom).offset(5)
             make.left.equalToSuperview().inset(20)
@@ -83,6 +86,7 @@ class HeaderCellView: UIView {
 //Label Child
         addSubview(childLabel)
         childLabel.text = "Дети"
+        childLabel.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         childLabel.font = UIFont(name: "abosanova", size: 20)
         childLabel.snp.makeConstraints { make in
             make.top.equalTo(parentAgeField.snp.bottom).offset(20)
@@ -92,8 +96,8 @@ class HeaderCellView: UIView {
 //LableLimit Child
         addSubview(childLimitLabel)
         childLimitLabel.text = "Можно добавить не более 5 детей"
+        childLimitLabel.textColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
         childLimitLabel.font = UIFont.systemFont(ofSize: 10)
-        childLimitLabel.textColor = .lightGray
         childLimitLabel.numberOfLines = 1
         childLimitLabel.adjustsFontSizeToFitWidth = true
         childLimitLabel.lineBreakMode = .byClipping
@@ -104,19 +108,20 @@ class HeaderCellView: UIView {
         
 //Button Child
         addSubview(childButton)
-        childButton.tintColor = .green
+        childButton.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        childButton.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         childButton.setImage(UIImage(systemName: "plus"), for: .normal)
         childButton.setTitle("Добавить ребенка", for: .normal)
         childButton.titleLabel?.numberOfLines = 1
         childButton.titleLabel?.adjustsFontSizeToFitWidth = true
         childButton.titleLabel?.lineBreakMode = .byClipping
-        childButton.layer.borderWidth = 1
         childButton.layer.cornerRadius = 20
-        childButton.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+//        childButton.layer.borderWidth = 1
+//        childButton.layer.borderColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         childButton.snp.makeConstraints { make in
             make.left.equalTo(childLimitLabel.snp.right).offset(20)
             make.right.equalToSuperview().offset(-20)
-            make.top.equalTo(parentAgeField.snp.bottom).offset(20)
+            make.top.equalTo(parentAgeField.snp.bottom).offset(10)
             make.height.equalTo(40)
         }
     }

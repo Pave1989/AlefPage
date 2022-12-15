@@ -19,8 +19,8 @@ class ParentTableViewController: UITableViewController {
         super.viewDidLoad()
       
         //print array with BD parents
-            let parentsArray = realmManager.obtainParent()
-            print("\(parentsArray)")
+            let parents = realmManager.obtainParent()
+            print("\(parents)")
             print("массив родителя")
 //        //print array with BD childs
 //            let childArray = dbManager.obtainChild()
@@ -35,12 +35,6 @@ class ParentTableViewController: UITableViewController {
         tableView.contentInsetAdjustmentBehavior = .never
         self.tableView.separatorStyle = .none
     }
-
-//number of children in the array
-        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            
-            return childsArray.count
-        }
     
 //HEADER
         override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -48,7 +42,7 @@ class ParentTableViewController: UITableViewController {
 
             let parentsArray = realmManager.obtainParent()
         //creating parent model if array is empty
-            if parentsArray.isEmpty == true{
+            if parentsArray.isEmpty == true {
                 header.cellView.parentSurnameField.text = ""
                 header.cellView.parentNameField.text = ""
                 header.cellView.parentPatronymicField.text = ""
@@ -56,7 +50,7 @@ class ParentTableViewController: UITableViewController {
                 tableView.reloadData()
                 let parent = ParentModel()
                 realmManager.saveParent(parent: parent)
-            }else{
+            } else {
                 let indexParent = parentsArray.endIndex - 1
                 header.cellView.parentSurnameField.text = parentsArray[indexParent].surname
                 header.cellView.parentNameField.text = parentsArray[indexParent].name
@@ -82,6 +76,12 @@ class ParentTableViewController: UITableViewController {
         }
     
 //CELL Child
+    //number of children in the array
+            override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+                
+                return childsArray.count
+            }
+    
             override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ChildTableViewCell
         //assigning text field values
@@ -119,7 +119,10 @@ class ParentTableViewController: UITableViewController {
             let alert = UIAlertController(title: "Очистить профиль?", message: "", preferredStyle: .alert)
             let parentDelete = UIAlertAction(title: "Удалить данные", style: .destructive){(alert) in
                 self.realmManager.clearAll()
+//MARK: - не очищаются строки если не добавлен ребенок родителю
                 self.tableView.reloadData()
+                let parents = self.realmManager.obtainParent()
+                print("\(parents)")
                 print("Данные удалены")
             }
             alert.addAction(parentDelete)

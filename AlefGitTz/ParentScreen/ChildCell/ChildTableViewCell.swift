@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
  
 class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
-    let dbManager: RealmManagerProtocol = RealmManager()
+    let realmManager: RealmManagerProtocol = RealmManager()
     //complition handler
     var didDelete: () -> () = {}
     
@@ -46,6 +46,7 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
 
 //функция срабатывает 0 при вводе данных в поле + ограничение символов ввода
     @objc func nameFilterDigits(_ textField: UITextField){
+        
         if textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 2 {
             textField.text = String(textField.text!.prefix(2))
         }
@@ -58,7 +59,7 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
 //the function saves the child data to the database with each change in the TextField
     @objc func saveChildRealm(_ textField: UITextField){
 
-        let childs = dbManager.obtainChild()
+        let childs = realmManager.obtainChild()
         let oldChildId = childs.endIndex - 1
         let child = ChildModel()
         let realm = try! Realm()
@@ -66,6 +67,8 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
             child.childID = childs[oldChildId].childID
             child.name = cellView.childNameField.text ?? ""
             child.age = cellView.childAgeField.text ?? ""
+       
+//MARK: - что то здесь!
             if  child.name != "" &&
                 child.age != ""{
                 realm.add(child, update: .modified)
@@ -75,12 +78,12 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
             
         })
         //print array with BD parents
-        let parents = dbManager.obtainParent()
+        let parents = realmManager.obtainParent()
         print("\(parents)")
         
-        //print array with BD childs
-            let childArray = dbManager.obtainChild()
-            print("\(childArray)")
+//        //print array with BD childs
+//            let childArray = realmManager.obtainChild()
+//            print("\(childArray)")
     }
 
 //function with child removal closure

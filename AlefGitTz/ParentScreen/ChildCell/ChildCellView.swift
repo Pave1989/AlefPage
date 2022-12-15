@@ -36,6 +36,7 @@ class ChildCellView: UIView{
         addSubview(childAgeField)
         childAgeField.placeholder = "Возраст"
         childAgeField.borderStyle = .roundedRect
+        childAgeField.keyboardType = .numberPad
         childAgeField.snp.makeConstraints { make in
             make.top.equalTo(childNameField.snp.bottom).offset(5)
             make.left.equalToSuperview().inset(20)
@@ -44,7 +45,7 @@ class ChildCellView: UIView{
         }
 //Button delete
         addSubview(deleteButton)
-        deleteButton.tintColor = .red
+        deleteButton.tintColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
         deleteButton.setImage(UIImage(systemName: "minus.circle"), for: .normal)
         deleteButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(20)
