@@ -16,11 +16,11 @@ class HeaderCellView: UIView {
     private(set) var parentAgeField = UITextField()
     private(set) var childLabel = UILabel()
     private(set) var childLimitLabel = UILabel()
-    private(set) var childButton = UIButton(type: .system)
+//    private(set) var childButton = UIButton(type: .system)
+    private(set) var childButton = AddChildButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         initializeUI()
     }
     required init?(coder: NSCoder) {
@@ -116,8 +116,7 @@ class HeaderCellView: UIView {
         childButton.titleLabel?.adjustsFontSizeToFitWidth = true
         childButton.titleLabel?.lineBreakMode = .byClipping
         childButton.layer.cornerRadius = 20
-//        childButton.layer.borderWidth = 1
-//        childButton.layer.borderColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        childButton.layer.borderColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         childButton.snp.makeConstraints { make in
             make.left.equalTo(childLimitLabel.snp.right).offset(20)
             make.right.equalToSuperview().offset(-20)

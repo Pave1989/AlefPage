@@ -16,7 +16,7 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
 //complition handler
     var tableViewReload: () -> () = {}
     static let reuseIdentifierHeader: String = String(describing: HeaderTableViewCell.self)
-    
+
     private(set) var cellView = HeaderCellView()
     
     override init(reuseIdentifier: String?){
@@ -63,6 +63,7 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
         @objc func addNewChild(){
 
             let parents = realmManager.obtainParent()
+            if parents.isEmpty == false {
             let indexParent = parents.endIndex - 1
             let parent = ParentModel()
             let child = ChildModel()
@@ -77,9 +78,19 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
                 parent.childs.append(child)
                 realm.add(parent, update: .modified)
             }
+            } else {
+                return
+            }
             tableViewReload()
             
-      
+            //print array with BD parents
+                let parentArray = realmManager.obtainParent()
+                print("\(parentArray)")
+                print("массив родителя")
+            //print array with BD childs
+                let childArray = realmManager.obtainChild()
+                print("\(childArray)")
+                print("массив детей")
                 print("добавился ребенок")
         }
     
@@ -121,4 +132,5 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
                 let parentsArray = realmManager.obtainParent()
                 print("\(parentsArray)")
     }
+    
 }

@@ -9,7 +9,9 @@ import UIKit
 import RealmSwift
 
 class ParentTableViewController: UITableViewController {
-
+    //complition handler
+    var parentViewReload: () -> () = {}
+    var cellView = HeaderCellView()
     let realmManager: RealmManagerProtocol = RealmManager()
     var childsArray: Results<ChildModel>!
     let cellID = "reuseIdentifier"
@@ -43,13 +45,14 @@ class ParentTableViewController: UITableViewController {
             let parentsArray = realmManager.obtainParent()
         //creating parent model if array is empty
             if parentsArray.isEmpty == true {
-                header.cellView.parentSurnameField.text = ""
-                header.cellView.parentNameField.text = ""
-                header.cellView.parentPatronymicField.text = ""
-                header.cellView.parentAgeField.text = ""
-                tableView.reloadData()
                 let parent = ParentModel()
                 realmManager.saveParent(parent: parent)
+
+                    header.cellView.parentSurnameField.text = ""
+                    header.cellView.parentNameField.text = ""
+                    header.cellView.parentPatronymicField.text = ""
+                    header.cellView.parentAgeField.text = ""
+                    tableView.reloadData()
             } else {
                 let indexParent = parentsArray.endIndex - 1
                 header.cellView.parentSurnameField.text = parentsArray[indexParent].surname
@@ -63,11 +66,8 @@ class ParentTableViewController: UITableViewController {
                     self.tableView.reloadData()
             }
             //hiding a button
-            if childsArray.count == 5{
-                header.cellView.childButton.isHidden = true
-            }else{
-                header.cellView.childButton.isHidden = false
-            }
+            header.cellView.childButton.isHidden = childsArray.count == 5
+            
             return header
         }
     //cell height header
@@ -119,7 +119,6 @@ class ParentTableViewController: UITableViewController {
             let alert = UIAlertController(title: "Очистить профиль?", message: "", preferredStyle: .alert)
             let parentDelete = UIAlertAction(title: "Удалить данные", style: .destructive){(alert) in
                 self.realmManager.clearAll()
-//MARK: - не очищаются строки если не добавлен ребенок родителю
                 self.tableView.reloadData()
                 let parents = self.realmManager.obtainParent()
                 print("\(parents)")

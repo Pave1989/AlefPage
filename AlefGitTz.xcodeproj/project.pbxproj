@@ -10,6 +10,8 @@
 		820980C829474C9600D20E66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820980C729474C9600D20E66 /* AppDelegate.swift */; };
 		820980D129474C9900D20E66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 820980D029474C9900D20E66 /* Assets.xcassets */; };
 		820980D429474C9900D20E66 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 820980D229474C9900D20E66 /* LaunchScreen.storyboard */; };
+		823488F9294E54C00019B24C /* HeaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823488F8294E54C00019B24C /* HeaderDelegate.swift */; };
+		823488FB294E67520019B24C /* AddChildButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823488FA294E67520019B24C /* AddChildButton.swift */; };
 		82BB05762947517A0077B9DF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 82BB05752947517A0077B9DF /* SnapKit */; };
 		82BB057C294754B00077B9DF /* ChildCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BB057B294754B00077B9DF /* ChildCellView.swift */; };
 		82BB057E294754FC0077B9DF /* ChildTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BB057D294754FC0077B9DF /* ChildTableViewCell.swift */; };
@@ -31,6 +33,8 @@
 		820980D029474C9900D20E66 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		820980D329474C9900D20E66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		820980D529474C9900D20E66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		823488F8294E54C00019B24C /* HeaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderDelegate.swift; sourceTree = "<group>"; };
+		823488FA294E67520019B24C /* AddChildButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChildButton.swift; sourceTree = "<group>"; };
 		82BB057B294754B00077B9DF /* ChildCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildCellView.swift; sourceTree = "<group>"; };
 		82BB057D294754FC0077B9DF /* ChildTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildTableViewCell.swift; sourceTree = "<group>"; };
 		82BB0585294756070077B9DF /* FooterCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterCellView.swift; sourceTree = "<group>"; };
@@ -77,11 +81,10 @@
 			isa = PBXGroup;
 			children = (
 				820980DB29474D1400D20E66 /* Application */,
-				8255E5A829489C30009B2AFC /* BDManager */,
 				82BB058E2947576C0077B9DF /* Models */,
 				8255E5A929489C71009B2AFC /* ParentScreen */,
-				82BB0584294755DE0077B9DF /* FooterCell */,
 				820980DC29474D2900D20E66 /* Resources */,
+				8255E5A829489C30009B2AFC /* Services */,
 			);
 			path = AlefGitTz;
 			sourceTree = "<group>";
@@ -104,20 +107,22 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		8255E5A829489C30009B2AFC /* BDManager */ = {
+		8255E5A829489C30009B2AFC /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				82BB05932947584B0077B9DF /* RealmManager.swift */,
 			);
-			path = BDManager;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		8255E5A929489C71009B2AFC /* ParentScreen */ = {
 			isa = PBXGroup;
 			children = (
 				82BB0595294758A20077B9DF /* ParentTableViewController.swift */,
+				823488F8294E54C00019B24C /* HeaderDelegate.swift */,
 				82BB0589294756AC0077B9DF /* HeaderCell */,
 				82BB057A294754980077B9DF /* ChildCell */,
+				82BB0584294755DE0077B9DF /* FooterCell */,
 			);
 			path = ParentScreen;
 			sourceTree = "<group>";
@@ -143,6 +148,7 @@
 		82BB0589294756AC0077B9DF /* HeaderCell */ = {
 			isa = PBXGroup;
 			children = (
+				823488FA294E67520019B24C /* AddChildButton.swift */,
 				82BB058A294756C40077B9DF /* HeaderCellView.swift */,
 				82BB058C294757020077B9DF /* HeaderTableViewCell.swift */,
 			);
@@ -244,7 +250,9 @@
 				82BB05942947584B0077B9DF /* RealmManager.swift in Sources */,
 				82BB058B294756C40077B9DF /* HeaderCellView.swift in Sources */,
 				820980C829474C9600D20E66 /* AppDelegate.swift in Sources */,
+				823488F9294E54C00019B24C /* HeaderDelegate.swift in Sources */,
 				82BB057E294754FC0077B9DF /* ChildTableViewCell.swift in Sources */,
+				823488FB294E67520019B24C /* AddChildButton.swift in Sources */,
 				82BB0596294758A20077B9DF /* ParentTableViewController.swift in Sources */,
 				82BB05902947577F0077B9DF /* ChildModel.swift in Sources */,
 				82BB0586294756070077B9DF /* FooterCellView.swift in Sources */,
