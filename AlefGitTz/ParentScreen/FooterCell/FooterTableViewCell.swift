@@ -23,7 +23,6 @@ class FooterTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
         super.init(coder: aDecoder)
     }
     private func initializeUI(){
-//чтобы работали textField добавить подвид в contentMode
 //view loading
         contentView.addSubview(cellView)
         cellView.snp.makeConstraints { make in

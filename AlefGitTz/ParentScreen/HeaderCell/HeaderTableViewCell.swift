@@ -34,16 +34,14 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
     }
     
     private func initializeUI(){
-//чтобы работали textField добавить подвид в contentMode
 //view loading
         contentView.addSubview(cellView)
         cellView.parentSurnameField.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
         cellView.parentNameField.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
         cellView.parentPatronymicField.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
-        cellView.parentAgeField.addTarget(self, action: #selector(self.saveParentRealm), for: .editingChanged)
-//function to add a child to the screen
+        cellView.parentAgeField.addTarget(self, action: #selector(self.filterDigitsSaveParent), for: .editingChanged)
+    //function to add a child to the screen
         cellView.childButton.addTarget(self, action: #selector(addNewChild), for: .touchUpInside)
-        cellView.parentAgeField.addTarget(self, action: #selector(self.filterDigitsChild), for: .editingChanged)
         cellView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(0)
             make.left.equalToSuperview().inset(0)
@@ -77,6 +75,11 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
                 parent.childs = parents[indexParent].childs
                 parent.childs.append(child)
                 realm.add(parent, update: .modified)
+//MARK: - сделать невозможным добавление еще одного ребенка если поля предидущего не заполнены
+//                if child.name != "" &&
+//                    child.age != ""{
+//
+//                }
             }
             } else {
                 return
@@ -87,15 +90,16 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
                 let parentArray = realmManager.obtainParent()
                 print("\(parentArray)")
                 print("массив родителя")
-            //print array with BD childs
-                let childArray = realmManager.obtainChild()
-                print("\(childArray)")
-                print("массив детей")
-                print("добавился ребенок")
+//            //print array with BD childs
+//                let childArray = realmManager.obtainChild()
+//                print("\(childArray)")
+//                print("массив детей")
+//                print("добавился ребенок")
         }
     
-//функция срабатывает 0 при вводе данных в поле + ограничение символов ввода
-    @objc func filterDigitsChild(_ textField: UITextField){
+//the function is triggered when the data in the field changes + limiting the characters to numeric values ​​+ overwriting the parent's age in the database
+  @objc func filterDigitsSaveParent(_ textField: UITextField){
+      //1
         if textField.text!.count > 2 {
             textField.text = String(textField.text!.prefix(2))
         }
@@ -104,7 +108,30 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
         } else {
           textField.text = ""
         }
-    }
+      //2
+          let parents = realmManager.obtainParent()
+          let oldParentID = parents.endIndex - 1
+          let parent = ParentModel()
+          let realm = try! Realm()
+          try! realm.write({
+              parent.parentID = parents[oldParentID].parentID
+              parent.surname = cellView.parentSurnameField.text ?? ""
+              parent.name = cellView.parentNameField.text ?? ""
+              parent.patronymic = cellView.parentPatronymicField.text ?? ""
+              parent.age = cellView.parentAgeField.text ?? ""
+              if parent.surname != "" &&
+                  parent.name != "" &&
+                  parent.patronymic != "" &&
+                  parent.age != "" {
+              realm.add(parent, update: .modified)
+              } else {
+                  return
+              }
+          })
+          //print array with BD parents
+                  let parentsArray = realmManager.obtainParent()
+                  print("\(parentsArray)")
+      }
     
 //the function saves the parent data to the database with each change in the TextField
     @objc private func saveParentRealm(_ textField: UITextField){
@@ -132,5 +159,4 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
                 let parentsArray = realmManager.obtainParent()
                 print("\(parentsArray)")
     }
-    
 }

@@ -34,8 +34,7 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
         cellView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         cellView.deleteButton.addTarget(self, action: #selector(deleteChild), for: .touchUpInside)
         cellView.childNameField.addTarget(self, action: #selector(saveChildRealm), for: .editingChanged)
-        cellView.childAgeField.addTarget(self, action: #selector(nameFilterDigits), for: .editingChanged)
-        cellView.childAgeField.addTarget(self, action: #selector(saveChildRealm), for: .editingChanged)
+        cellView.childAgeField.addTarget(self, action: #selector(filterDigitsSaveChild), for: .editingChanged)
         cellView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(0)
             make.left.equalToSuperview().inset(0)
@@ -44,10 +43,10 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
         }
     }
 
-//функция срабатывает 0 при вводе данных в поле + ограничение символов ввода
-    @objc func nameFilterDigits(_ textField: UITextField){
-        
-        if textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 2 {
+//the function is triggered when the data in the field changes + limiting the characters to numeric values ​​+ overwriting the child's age in the database
+    @objc func filterDigitsSaveChild(_ textField: UITextField){
+        //1
+        if textField.text!.count > 2 {
             textField.text = String(textField.text!.prefix(2))
         }
         if  let text = textField.text, let intText = Int(text) {
@@ -55,6 +54,25 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
         } else {
           textField.text = ""
         }
+        //2
+        let childs = realmManager.obtainChild()
+        let oldChildId = childs.endIndex - 1
+        let child = ChildModel()
+        let realm = try! Realm()
+        try! realm.write({
+            child.childID = childs[oldChildId].childID
+            child.name = cellView.childNameField.text ?? ""
+            child.age = cellView.childAgeField.text ?? ""
+            if  child.name != "" &&
+                child.age != ""{
+                realm.add(child, update: .modified)
+            } else {
+                return
+            }
+        })
+        //print array with BD parents
+        let parents = realmManager.obtainParent()
+        print("\(parents)")
     }
 //the function saves the child data to the database with each change in the TextField
     @objc func saveChildRealm(_ textField: UITextField){
@@ -67,23 +85,16 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
             child.childID = childs[oldChildId].childID
             child.name = cellView.childNameField.text ?? ""
             child.age = cellView.childAgeField.text ?? ""
-       
-//MARK: - что то здесь!
             if  child.name != "" &&
                 child.age != ""{
                 realm.add(child, update: .modified)
             } else {
                 return
             }
-            
         })
         //print array with BD parents
         let parents = realmManager.obtainParent()
         print("\(parents)")
-        
-//        //print array with BD childs
-//            let childArray = realmManager.obtainChild()
-//            print("\(childArray)")
     }
 
 //function with child removal closure

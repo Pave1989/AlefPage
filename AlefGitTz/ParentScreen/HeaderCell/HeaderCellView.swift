@@ -16,7 +16,6 @@ class HeaderCellView: UIView {
     private(set) var parentAgeField = UITextField()
     private(set) var childLabel = UILabel()
     private(set) var childLimitLabel = UILabel()
-//    private(set) var childButton = UIButton(type: .system)
     private(set) var childButton = AddChildButton()
     
     override init(frame: CGRect) {
@@ -112,6 +111,7 @@ class HeaderCellView: UIView {
         childButton.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         childButton.setImage(UIImage(systemName: "plus"), for: .normal)
         childButton.setTitle("Добавить ребенка", for: .normal)
+        childButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         childButton.titleLabel?.numberOfLines = 1
         childButton.titleLabel?.adjustsFontSizeToFitWidth = true
         childButton.titleLabel?.lineBreakMode = .byClipping

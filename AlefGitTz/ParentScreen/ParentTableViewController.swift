@@ -9,9 +9,7 @@ import UIKit
 import RealmSwift
 
 class ParentTableViewController: UITableViewController {
-    //complition handler
-    var parentViewReload: () -> () = {}
-    var cellView = HeaderCellView()
+
     let realmManager: RealmManagerProtocol = RealmManager()
     var childsArray: Results<ChildModel>!
     let cellID = "reuseIdentifier"
@@ -25,7 +23,7 @@ class ParentTableViewController: UITableViewController {
             print("\(parents)")
             print("массив родителя")
 //        //print array with BD childs
-//            let childArray = dbManager.obtainChild()
+//            let childArray = realmManager.obtainChild()
 //            print("\(childArray)")
 //            print("массив детей")
         
@@ -47,12 +45,10 @@ class ParentTableViewController: UITableViewController {
             if parentsArray.isEmpty == true {
                 let parent = ParentModel()
                 realmManager.saveParent(parent: parent)
-
                     header.cellView.parentSurnameField.text = ""
                     header.cellView.parentNameField.text = ""
                     header.cellView.parentPatronymicField.text = ""
                     header.cellView.parentAgeField.text = ""
-                    tableView.reloadData()
             } else {
                 let indexParent = parentsArray.endIndex - 1
                 header.cellView.parentSurnameField.text = parentsArray[indexParent].surname
@@ -87,13 +83,13 @@ class ParentTableViewController: UITableViewController {
         //assigning text field values
                 let childs = realmManager.obtainChild()
                 cell.cellView.childNameField.text = childs[indexPath.row].name
-                cell.cellView.childAgeField.text = "\(childs[indexPath.row].age)"
+                cell.cellView.childAgeField.text = childs[indexPath.row].age
         //delete by cell index
                 cell.didDelete = { [weak self] in
                     guard let self = self else {return}
                     let child = self.childsArray[indexPath.row]
                     self.realmManager.removeObject(object: child)
-        //self.tableView.deleteRows(at: [indexPath], with: .right)
+//                    self.tableView.deleteRows(at: [indexPath], with: .right)
                         self.tableView.reloadData()
                     }
                 return cell
@@ -106,6 +102,7 @@ class ParentTableViewController: UITableViewController {
 //FOOTER
         override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
              let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: FooterTableViewCell.reuseIdentifierFooter) as! FooterTableViewCell
+
             footer.cellView.cancelButton.addTarget(self, action: #selector(deleteInfo), for: .touchUpInside)
            
             return footer
@@ -122,8 +119,9 @@ class ParentTableViewController: UITableViewController {
                 self.tableView.reloadData()
                 let parents = self.realmManager.obtainParent()
                 print("\(parents)")
-                print("Данные удалены")
+                print("Data deleted")
             }
+            view.endEditing(true)
             alert.addAction(parentDelete)
             alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: .none))
             self.present(alert, animated: true, completion: nil)

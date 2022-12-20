@@ -26,12 +26,10 @@ class FooterCellView: UIView {
         cancelButton.layer.cornerRadius = 20
         cancelButton.setImage(UIImage(systemName: "trash"), for: .normal)
         cancelButton.setTitle("Очистить данные", for: .normal)
+        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         cancelButton.titleLabel?.numberOfLines = 1
         cancelButton.titleLabel?.adjustsFontSizeToFitWidth = true
         cancelButton.titleLabel?.lineBreakMode = .byClipping
-//        cancelButton.layer.borderWidth = 1
-//        cancelButton.layer.cornerRadius = 20
-//        cancelButton.layer.borderColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
         cancelButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(15)
