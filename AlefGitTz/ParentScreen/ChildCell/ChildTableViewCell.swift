@@ -12,7 +12,7 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
     let realmManager: RealmManagerProtocol = RealmManager()
     //complition handler
     var didDelete: () -> () = {}
-    
+    static let reuseIdentifierCell: String = String(describing: ChildTableViewCell.self)
     private(set) var cellView = ChildCellView()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
