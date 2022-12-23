@@ -51,18 +51,18 @@ class ParentTableViewController: UITableViewController {
             if parentsArray.isEmpty == true {
                 let parent = ParentModel()
                 realmManager.saveParent(parent: parent)
-                header.cellView.parentSurnameField.text = ""
-                header.cellView.parentNameField.text = ""
-                header.cellView.parentPatronymicField.text = ""
-                header.cellView.parentAgeField.text = ""
-                header.cellView.childButton.isEnabled = false
-                header.cellView.parentLabel.text = "Заполните ваши данные"
+                header.headerView.parentSurnameField.text = ""
+                header.headerView.parentNameField.text = ""
+                header.headerView.parentPatronymicField.text = ""
+                header.headerView.parentAgeField.text = ""
+                header.headerView.childButton.isEnabled = false
+                header.headerView.parentLabel.text = "Заполните ваши данные"
             } else {
                 let indexParent = parentsArray.endIndex - 1
-                header.cellView.parentSurnameField.text = parentsArray[indexParent].surname
-                header.cellView.parentNameField.text = parentsArray[indexParent].name
-                header.cellView.parentPatronymicField.text = parentsArray[indexParent].patronymic
-                header.cellView.parentAgeField.text = parentsArray[indexParent].age
+                header.headerView.parentSurnameField.text = parentsArray[indexParent].surname
+                header.headerView.parentNameField.text = parentsArray[indexParent].name
+                header.headerView.parentPatronymicField.text = parentsArray[indexParent].patronymic
+                header.headerView.parentAgeField.text = parentsArray[indexParent].age
                 }
                 
             //reload tableView
@@ -71,7 +71,7 @@ class ParentTableViewController: UITableViewController {
                     self.tableView.reloadData()
             }
             //hiding a button
-            header.cellView.childButton.isHidden = childsArray.count == 5
+            header.headerView.childButton.isHidden = childsArray.count == 5
             
             return header
         }

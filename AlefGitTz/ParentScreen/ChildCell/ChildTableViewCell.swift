@@ -63,12 +63,13 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
             child.childID = childs[oldChildId].childID
             child.name = cellView.childNameField.text ?? ""
             child.age = cellView.childAgeField.text ?? ""
-            if  child.name != "" &&
-                child.age != ""{
-                realm.add(child, update: .modified)
-            } else {
-                return
-            }
+            realm.add(child, update: .modified)
+//            if  child.name != "" &&
+//                child.age != ""{
+//                realm.add(child, update: .modified)
+//            } else {
+//                return
+//            }
         })
         //print array with BD parents
         let parents = realmManager.obtainParent()
@@ -108,4 +109,5 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
         let letters = CharacterSet(charactersIn: "абвгдежзийклмнопрстуфхцчшщъыьэюяАБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ").inverted
        return (string.rangeOfCharacter(from: letters) == nil)
     }
-}
+  }
+

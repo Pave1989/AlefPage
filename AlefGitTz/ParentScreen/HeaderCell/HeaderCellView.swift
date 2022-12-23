@@ -86,7 +86,10 @@ class HeaderCellView: UIView {
         addSubview(childLabel)
         childLabel.text = "Дети"
         childLabel.textColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        childLabel.font = UIFont(name: "abosanova", size: 20)
+        childLabel.font = UIFont.systemFont(ofSize: 20)
+        childLabel.numberOfLines = 1
+        childLabel.adjustsFontSizeToFitWidth = true
+        childLabel.lineBreakMode = .byClipping
         childLabel.snp.makeConstraints { make in
             make.top.equalTo(parentAgeField.snp.bottom).offset(20)
             make.left.equalToSuperview().inset(20)

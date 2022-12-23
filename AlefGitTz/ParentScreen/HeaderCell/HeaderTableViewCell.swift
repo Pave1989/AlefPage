@@ -17,16 +17,18 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
     var tableViewReload: () -> () = {}
     static let reuseIdentifierHeader: String = String(describing: HeaderTableViewCell.self)
 
-    private(set) var cellView = HeaderCellView()
+    private(set) var headerView = HeaderCellView()
+    private(set) var cellView = ChildCellView()
     
     override init(reuseIdentifier: String?){
         super.init(reuseIdentifier: reuseIdentifier)
-
+      
+        validParent()
         initializeUI()
 
-        self.cellView.parentSurnameField.delegate = self
-        self.cellView.parentNameField.delegate = self
-        self.cellView.parentPatronymicField.delegate = self
+        self.headerView.parentSurnameField.delegate = self
+        self.headerView.parentNameField.delegate = self
+        self.headerView.parentPatronymicField.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -35,14 +37,14 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     private func initializeUI(){
 //view loading
-        contentView.addSubview(cellView)
-        cellView.parentSurnameField.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
-        cellView.parentNameField.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
-        cellView.parentPatronymicField.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
-        cellView.parentAgeField.addTarget(self, action: #selector(self.filterDigitsSaveParent), for: .editingChanged)
+        contentView.addSubview(headerView)
+        headerView.parentSurnameField.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
+        headerView.parentNameField.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
+        headerView.parentPatronymicField.addTarget(self, action: #selector(saveParentRealm), for: .editingChanged)
+        headerView.parentAgeField.addTarget(self, action: #selector(self.filterDigitsSaveParent), for: .editingChanged)
     //function to add a child to the screen
-        cellView.childButton.addTarget(self, action: #selector(addNewChild), for: .touchUpInside)
-        cellView.snp.makeConstraints { make in
+        headerView.childButton.addTarget(self, action: #selector(addNewChild), for: .touchUpInside)
+        headerView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(0)
             make.left.equalToSuperview().inset(0)
             make.right.equalToSuperview().inset(0)
@@ -109,10 +111,10 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
           let realm = try! Realm()
           try! realm.write({
               parent.parentID = parents[oldParentID].parentID
-              parent.surname = cellView.parentSurnameField.text ?? ""
-              parent.name = cellView.parentNameField.text ?? ""
-              parent.patronymic = cellView.parentPatronymicField.text ?? ""
-              parent.age = cellView.parentAgeField.text ?? ""
+              parent.surname = headerView.parentSurnameField.text ?? ""
+              parent.name = headerView.parentNameField.text ?? ""
+              parent.patronymic = headerView.parentPatronymicField.text ?? ""
+              parent.age = headerView.parentAgeField.text ?? ""
               if parent.surname != "" &&
                   parent.name != "" &&
                   parent.patronymic != "" &&
@@ -125,7 +127,7 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
           //print array with BD parents
                   let parentsArray = realmManager.obtainParent()
                   print("\(parentsArray)")
-      resetForm()
+         validParent()
       }
     
 //the function saves the parent data to the database with each change in the TextField
@@ -137,29 +139,41 @@ class HeaderTableViewCell: UITableViewHeaderFooterView, UITextFieldDelegate {
         let realm = try! Realm()
         try! realm.write({
             parent.parentID = parents[oldParentID].parentID
-            parent.surname = cellView.parentSurnameField.text ?? ""
-            parent.name = cellView.parentNameField.text ?? ""
-            parent.patronymic = cellView.parentPatronymicField.text ?? ""
-            parent.age = cellView.parentAgeField.text ?? ""
+            parent.surname = headerView.parentSurnameField.text ?? ""
+            parent.name = headerView.parentNameField.text ?? ""
+            parent.patronymic = headerView.parentPatronymicField.text ?? ""
+            parent.age = headerView.parentAgeField.text ?? ""
             realm.add(parent, update: .modified)
         })
         //print array with BD parents
                 let parentsArray = realmManager.obtainParent()
                 print("\(parentsArray)")
-        resetForm()
+        validChild()
     }
-    
+//MARK: - при загрузки с заполненной моделью родителя срабатывает validate
 //validate parentForm
-    func resetForm(){
-        if cellView.parentSurnameField.text != "",
-           cellView.parentNameField.text != "",
-           cellView.parentPatronymicField.text != "",
-           cellView.parentAgeField.text != ""{
-            cellView.childButton.isEnabled = true
-            cellView.parentLabel.text = "Персональные данные"
+    func validParent(){
+        if headerView.parentSurnameField.text != "",
+           headerView.parentNameField.text != "",
+           headerView.parentPatronymicField.text != "",
+           headerView.parentAgeField.text != ""{
+            headerView.childButton.isEnabled = true
+            headerView.parentLabel.text = "Персональные данные"
         }else{
-            cellView.childButton.isEnabled = false
-            cellView.parentLabel.text = "Заполните ваши данные"
+            headerView.childButton.isEnabled = false
+            headerView.parentLabel.text = "Заполните ваши данные"
+        }
+    }
+//validate childForm
+    func validChild(){
+        if cellView.childNameField.text != "",
+           cellView.childAgeField.text != ""{
+            headerView.childButton.isEnabled = true
+            headerView.childLabel.text = "Дети"
+        }else{
+            headerView.childButton.isEnabled = false
+            headerView.childLabel.text = "Заполните данные ребенка"
+            headerView.childLabel.font = UIFont.systemFont(ofSize: 13)
         }
     }
 }
