@@ -13,8 +13,9 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
     //complition handler
     var didDelete: () -> () = {}
     static let reuseIdentifierCell: String = String(describing: ChildTableViewCell.self)
+    
     private(set) var cellView = ChildCellView()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -71,6 +72,8 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
 //                return
 //            }
         })
+        validChild()
+        
         //print array with BD parents
         let parents = realmManager.obtainParent()
         print("\(parents)")
@@ -93,6 +96,8 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
                 return
             }
         })
+        validChild()
+        
         //print array with BD parents
         let parents = realmManager.obtainParent()
         print("\(parents)")
@@ -109,5 +114,21 @@ class ChildTableViewCell: UITableViewCell, UITextFieldDelegate {
         let letters = CharacterSet(charactersIn: "абвгдежзийклмнопрстуфхцчшщъыьэюяАБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ").inverted
        return (string.rangeOfCharacter(from: letters) == nil)
     }
+    
+    //MARK: - валидация чилда не срабатывает при пустых полях
+//    //validate childForm
+//        func validChild(){
+//            if
+//                cellView.childNameField.text != "",
+//               cellView.childAgeField.text != ""
+//            {
+//                headerView.childButton.isEnabled = true
+//                headerView.childLabel.text = "Дети"
+//            }else{
+//                headerView.childButton.isEnabled = false
+////                headerView.childLabel.font = UIFont.systemFont(ofSize: 13)
+//                headerView.childLabel.text = "Заполните данные ребенка"
+//            }
+//        }
   }
 

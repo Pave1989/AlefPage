@@ -120,6 +120,7 @@ class HeaderCellView: UIView {
         childButton.titleLabel?.lineBreakMode = .byClipping
         childButton.layer.cornerRadius = 20
         childButton.layer.borderColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        childButton.isEnabled = false
         childButton.snp.makeConstraints { make in
             make.left.equalTo(childLimitLabel.snp.right).offset(20)
             make.right.equalToSuperview().offset(-20)
